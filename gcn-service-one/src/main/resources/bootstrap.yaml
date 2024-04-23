@@ -1,0 +1,16 @@
+kubernetes:
+  client:
+    discovery:
+      includes:
+        - gcn-service-two
+      enabled: true
+      services:
+        gcn-service-two:
+          name: gcn-service-two
+          mode: endpoint
+          port: http
+    mode: endpoint
+    mode-configuration:
+      service:
+        watch:
+          enabled: true
