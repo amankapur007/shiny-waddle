@@ -16,8 +16,13 @@
 
 package com.demo;
 import io.micronaut.runtime.Micronaut;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
 
-
+@OpenAPIDefinition(info = @Info(title = "service-one", description = "Service one",
+contact = @Contact(name = "Aman Kapur"),version = "1.0"), externalDocs = @ExternalDocumentation(url = "http://localhost:8080"))
 public class Application {
 
     public static void main(String[] args) {
