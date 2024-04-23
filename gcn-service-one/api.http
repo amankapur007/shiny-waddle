@@ -24,3 +24,6 @@ GET http://localhost:9090/prometheus
 
 ###GET
 GET http://localhost:9090/metrics
+
+### GET Serach gcn_service_one_health
+http://localhost:9090/prometheus 
