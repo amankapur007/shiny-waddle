@@ -27,6 +27,10 @@ import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.http.annotation.QueryValue;
 import io.micronaut.runtime.Micronaut;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+import reactor.core.publisher.Mono;
+import reactor.core.publisher.MonoSink;
 
 public class Application {
 
@@ -35,27 +39,48 @@ public class Application {
     }
 }
 
-@Controller("/v1") //(1) Same as spring rest controller
+@Controller("/v1") // Same as spring rest controller
 class EchoController{
 
     private final Logger log = LoggerFactory.getLogger(EchoController.class);
 
-    //(2) Get / Put / Post / Patch /Delete
-    //(3) @QueryValue is same as @RequestParam of spring
-    //(4) @Nullable annotation before @QueryValue makes the param as not required
-    //(5) HttpResponse is equivalent to ResponseEntity
+    @Inject // This is same as @Autowired but as per document we should use contruction injection
+    EchoService echoService;
+
+    // Get / Put / Post / Patch /Delete
+    // @QueryValue is same as @RequestParam of spring
+    // @Nullable annotation before @QueryValue makes the param as not required
+    // HttpResponse is equivalent to ResponseEntity
     @Get(value="/echo", produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON_PROBLEM})
-    public HttpResponse<String> echoMessage(@QueryValue("message") String message) throws InterruptedException{
+    public Mono<HttpResponse<String>> echoMessage(@QueryValue("message") String message) throws InterruptedException{
         log.info("EchoController: Echo the message");
-        Thread.sleep(2000);
-        log.info("EchoController: I am awake");
-        return HttpResponse.ok(message);
+        Mono<HttpResponse<String>> m = Mono.create(arg0 -> {
+            try {
+                echoService.echoMessage(message, arg0);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        log.info("EchoController: End of the controller");
+        return m;
     }
 
-    //(6) @Body is equivalent to ResponseBody
+    // @Body is equivalent to ResponseBody
     @Post(value = "/echo")
-    public HttpResponse<String> postMessage(@Body String message){
+    public HttpResponse<String> postMessage(@Body String message) {
         log.info("EchoController: Post the message");
         return HttpResponse.created(message);
+    }
+}
+
+@Singleton // Equivalent to @Service
+class EchoService{
+    private final Logger log = LoggerFactory.getLogger(EchoService.class);
+
+    public void echoMessage(String message, MonoSink<HttpResponse<String>> result) throws InterruptedException{
+        log.info("EchoService: Echoing the message");
+        Thread.sleep(2000);
+        log.info("EchoService: I am awake");
+        result.success(HttpResponse.ok(message));
     }
 }
