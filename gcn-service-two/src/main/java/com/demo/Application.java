@@ -19,7 +19,9 @@ package com.demo;
 import java.time.Instant;
 import java.util.UUID;
 
+import io.micronaut.context.annotation.Value;
 import io.micronaut.http.HttpResponse;
+import io.micronaut.http.HttpStatus;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.runtime.Micronaut;
@@ -33,9 +35,13 @@ public class Application {
 
 @Controller("/v1")
 class ServiceTwoCOntroller{
+
+    @Value("${response.code}")
+    String code;
+
     String uuid = Instant.now().toString();
     @Get(value = "/helloWorld")
     public HttpResponse<String> helloWorld(){
-        return HttpResponse.ok().body("Hello World "+uuid);
+        return HttpResponse.status(HttpStatus.valueOf(code)).body("Hello World "+uuid);
     }
 }

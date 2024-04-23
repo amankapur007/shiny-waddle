@@ -61,6 +61,7 @@ dependencies {
 
     implementation("io.micronaut.rxjava3:micronaut-rxjava3-http-client")
 
+    implementation("io.micronaut:micronaut-retry")
 
 
 
