@@ -45,8 +45,10 @@ class EchoController{
     //(4) @Nullable annotation before @QueryValue makes the param as not required
     //(5) HttpResponse is equivalent to ResponseEntity
     @Get(value="/echo", produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON_PROBLEM})
-    public HttpResponse<String> echoMessage(@QueryValue("message") String message){
+    public HttpResponse<String> echoMessage(@QueryValue("message") String message) throws InterruptedException{
         log.info("EchoController: Echo the message");
+        Thread.sleep(2000);
+        log.info("EchoController: I am awake");
         return HttpResponse.ok(message);
     }
 
