@@ -16,11 +16,26 @@
 
 package com.demo;
 
+import java.time.Instant;
+import java.util.UUID;
+
+import io.micronaut.http.HttpResponse;
+import io.micronaut.http.annotation.Controller;
+import io.micronaut.http.annotation.Get;
 import io.micronaut.runtime.Micronaut;
 
 public class Application {
 
     public static void main(String[] args) {
         Micronaut.run(Application.class, args);
+    }
+}
+
+@Controller("/v1")
+class ServiceTwoCOntroller{
+    String uuid = Instant.now().toString();
+    @Get(value = "/helloWorld")
+    public HttpResponse<String> helloWorld(){
+        return HttpResponse.ok().body("Hello World "+uuid);
     }
 }
