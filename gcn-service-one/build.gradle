@@ -59,6 +59,8 @@ dependencies {
     annotationProcessor("io.micronaut.openapi:micronaut-openapi")
     compileOnly("io.micronaut.openapi:micronaut-openapi-annotations")
 
+    implementation("io.micronaut.rxjava3:micronaut-rxjava3-http-client")
+
 
 
 

@@ -6,6 +6,7 @@ import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.demo.client.ServiceTwoClient;
 import com.demo.model.EchoMessageModel;
 import com.demo.repo.EchoRepo;
 
@@ -19,9 +20,11 @@ public class EchoService{
     private final Logger log = LoggerFactory.getLogger(EchoService.class);
 
     private final EchoRepo repo;
+    private final ServiceTwoClient client1;
 
-    public EchoService(EchoRepo repo) {
+    public EchoService(EchoRepo repo, ServiceTwoClient client1) {
         this.repo = repo;
+        this.client1 = client1;
     }
 
     public void echoMessage(String message, MonoSink result) throws InterruptedException{
@@ -52,5 +55,15 @@ public class EchoService{
         }else{
             arg0.success(HttpResponse.notFound("Not found"));
         }
+    }
+
+    public void helloWorld(MonoSink arg0) {
+        log.info("EchoService:Rest towards service 2");
+        client1.helloWorld().doOnSuccess(res -> arg0.success(res))
+        .doOnError((Throwable t) ->{
+            t.printStackTrace();
+            arg0.error(t);
+        }).subscribe();
+        log.info("EchoService:Rest towards service 2 --- DONE");
     }
 }

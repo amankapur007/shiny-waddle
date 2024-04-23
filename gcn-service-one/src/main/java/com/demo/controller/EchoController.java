@@ -57,4 +57,11 @@ class EchoController{
         log.info("EchoController: Getting the message by id - {}", id);
         return Mono.create(arg0 -> echoService.getMessages(id, arg0));
     }
+
+    @Get("/helloWorld")
+    public Mono<?> helloWorld() {
+        log.info("EchoController: Hello World");
+        return Mono.create(arg0 -> echoService.helloWorld(arg0));
+
+    }
 }
