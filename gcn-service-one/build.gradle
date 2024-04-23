@@ -38,7 +38,13 @@ dependencies {
     runtimeOnly("ch.qos.logback:logback-classic")
     implementation("io.micronaut.reactor:micronaut-reactor")
     implementation("io.micronaut.reactor:micronaut-reactor-http-client") 
+
     implementation("io.micronaut:micronaut-management")
+
+    implementation("io.micronaut.micrometer:micronaut-micrometer-core")
+    implementation("io.micronaut.micrometer:micronaut-micrometer-observation")
+    implementation("io.micronaut.micrometer:micronaut-micrometer-observation-http")
+    implementation("io.micronaut.micrometer:micronaut-micrometer-registry-prometheus")
 }
 
 
