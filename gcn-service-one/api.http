@@ -27,3 +27,14 @@ GET http://localhost:9090/metrics
 
 ### GET Serach gcn_service_one_health
 http://localhost:9090/prometheus 
+
+
+### POST
+POST http://localhost:8080/v1/echo
+Content-Type: application/json
+
+Hello World
+
+
+### GET
+GET http://localhost:8080/v1/echo/2
